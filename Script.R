@@ -1,4 +1,4 @@
-# Ajout Commentaire
+# Graphique de mise en valeur des corrélations dans un jeu de donnees
 library(tidyverse)
 
 mtcars2 <- mtcars %>%
@@ -7,6 +7,7 @@ head(mtcars2)
 
 cor(mtcars2)
 
+# Fpnction complexe de creation du corrplot
 panel.cor_simple <- function(x, y, digits=2, prefix="", cex.cor) 
 {
   usr <- par("usr"); on.exit(par(usr)) 
@@ -25,7 +26,20 @@ panel.cor_simple <- function(x, y, digits=2, prefix="", cex.cor)
   text(0.5, 0.5, txt, cex = cex * abs(r)) 
   text(.8, .8, Signif, cex=cex, col=2) 
 }
-  pairs(mtcars2, lower.panel=panel.smooth, upper.panel=panel.cor_simple) 
+  
+pairs(mtcars2, lower.panel=panel.smooth, upper.panel=panel.cor_simple) 
+
+
+
+# Installation de Corrplot sur une version antérieure de R qui ne le supporte pas.
+library(remotes)
+install_github("cran/corrplot")
+# chargement des librairies standards
+library(tidyverse)
 library(corrplot)
+# On enleve deux variables non nécessaires (vs et am)
+mtcars2 <- mtcars %>%
+  select(-vs, -am)
 M <- cor(mtcars2)
 corrplot(M, method = "number", type="upper")
+
